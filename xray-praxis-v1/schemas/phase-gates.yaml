@@ -1,0 +1,77 @@
+# PRAXIS — Phase gates
+# Defines G0..G6 plus hardcoded human gates (G2, G5, G6).
+# scripts/advance_phase.py uses HARDCODED_HUMAN_GATES = {G2, G5, G6}.
+
+schema_version: "1.0.0"
+
+hardcoded_human_gates: ["G2", "G5", "G6"]
+
+gate_to_next_phase:
+  G0: 2
+  G1: 3
+  G2: 3
+  G3: 4
+  G4: 6
+  G5: 6
+
+gates:
+
+  G0:
+    location: "end of Phase 1"
+    type: "AUTO"
+    purpose: "Mandatory intake fields present or gaps explicitly documented."
+    pass_criteria:
+      - "company_name is set"
+      - "primary_problem OR briefing_path is set"
+      - "scenario in {A,B,C}"
+      - "any missing field is annotated with [PENDENTE]"
+
+  G1:
+    location: "start of Phase 3"
+    type: "AUTO"
+    purpose: "Intake normalized with epistemic labels."
+    pass_criteria:
+      - "A-01 exists"
+      - "A-01 contains at least one [FATO] or [INFERÊNCIA] or [HIPÓTESE] label"
+
+  G2:
+    location: "end of Phase 3"
+    type: "HARDCODED_HUMAN"
+    purpose: "Diagnostic review — never auto-advance."
+    pass_criteria:
+      - "Consultant explicitly approves the diagnostic"
+      - "advance_phase.py requires literal 'yes' confirmation"
+
+  G3:
+    location: "end of Phase 4"
+    type: "AUTO"
+    purpose: "Priority score complete."
+    pass_criteria:
+      - "At least one scenario simulation produced (A-10)"
+      - "Priority score computed for top action items"
+
+  G4:
+    location: "Phase 6 pre-release"
+    type: "AUTO"
+    purpose: "QA checklist passes (scripts/validate_qa.py)."
+    pass_criteria:
+      - "validate_qa.py exits 0"
+      - "Zero forbidden phrases in client deliverables"
+      - "Brand consistency tokens applied"
+
+  G5:
+    location: "end of Phase 6"
+    type: "HARDCODED_HUMAN"
+    purpose: "Final package approval — never auto-advance."
+    pass_criteria:
+      - "Consultant explicitly approves A-FINAL and A-OPS"
+      - "Consultant confirms client-track corpus is ready to deliver"
+
+  G6:
+    location: "post-delivery"
+    type: "HARDCODED_HUMAN"
+    purpose: "Execution handoff confirmation — never auto-advance."
+    pass_criteria:
+      - "Client received deliverables"
+      - "Action plan ownership confirmed"
+      - "Consultant confirms case is closeable"

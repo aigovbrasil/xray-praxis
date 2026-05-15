@@ -1,0 +1,140 @@
+# PRAXIS — Artifact registry
+# Maps every artifact ID to its producing phase, consumers, format, and audience.
+
+schema_version: "1.0.0"
+
+artifacts:
+
+  A-01:
+    name: "Normalized Follow Up"
+    produced_in_phase: 1
+    consumed_by_phases: [2, 3, 5]
+    format: "markdown"
+    audience: "internal"
+    epistemic_required: true
+
+  A-02:
+    name: "Commercial Proposal"
+    produced_in_phase: 2
+    consumed_by_phases: []
+    format: "markdown -> pdf"
+    audience: "client"
+    epistemic_required: false
+
+  A-03:
+    name: "Closing Contract + Showroom"
+    produced_in_phase: 2
+    consumed_by_phases: []
+    format: "markdown"
+    audience: "client"
+    epistemic_required: false
+
+  A-04:
+    name: "Client Personalization Pack"
+    produced_in_phase: 2
+    consumed_by_phases: [6]
+    format: "markdown + assets"
+    audience: "internal"
+    epistemic_required: false
+
+  A-05:
+    name: "Normalized Data (SVG + summary)"
+    produced_in_phase: 3
+    consumed_by_phases: [3, 5]
+    format: "svg + markdown"
+    audience: "internal"
+    epistemic_required: true
+
+  A-06:
+    name: "B-Frames Output"
+    produced_in_phase: 3
+    consumed_by_phases: [4, 5]
+    format: "markdown"
+    audience: "internal"
+    epistemic_required: true
+
+  A-07:
+    name: "Basic-Tier Analysis"
+    produced_in_phase: 3
+    consumed_by_phases: [4, 5]
+    format: "markdown"
+    audience: "internal"
+    epistemic_required: true
+    tier: "Basic"
+
+  A-08:
+    name: "Lean-Tier Analysis"
+    produced_in_phase: 3
+    consumed_by_phases: [4, 5]
+    format: "markdown"
+    audience: "internal"
+    epistemic_required: true
+    tier: "Lean"
+
+  A-09:
+    name: "Full-Tier Analysis"
+    produced_in_phase: 3
+    consumed_by_phases: [4, 5]
+    format: "markdown"
+    audience: "internal"
+    epistemic_required: true
+    tier: "Full"
+
+  A-10:
+    name: "Simulation Phase 1"
+    produced_in_phase: 4
+    consumed_by_phases: [5]
+    format: "markdown + tables"
+    audience: "internal"
+    epistemic_required: true
+
+  A-11:
+    name: "Simulation Phase 2"
+    produced_in_phase: 4
+    consumed_by_phases: [5]
+    format: "markdown + tables"
+    audience: "internal"
+    epistemic_required: true
+
+  A-12:
+    name: "Architect Pack"
+    produced_in_phase: 5
+    consumed_by_phases: [6]
+    format: "directory"
+    audience: "internal"
+
+  A-13:
+    name: "Final Compilation Input"
+    produced_in_phase: 5
+    consumed_by_phases: [5]
+    format: "markdown"
+    audience: "internal"
+
+  A-MASTER:
+    name: "Master Document"
+    produced_in_phase: 5
+    consumed_by_phases: [6]
+    format: "markdown"
+    audience: "internal+client (dual-track)"
+    epistemic_required: true
+
+  A-MASTER-LINEAR:
+    name: "Master Linear-format export"
+    produced_in_phase: 5
+    consumed_by_phases: []
+    format: "markdown (Linear-compatible)"
+    audience: "linear-mcp"
+
+  A-FINAL:
+    name: "Final Designed Deliverable"
+    produced_in_phase: 6
+    consumed_by_phases: []
+    format: "pdf or designed html"
+    audience: "client"
+
+  A-OPS:
+    name: "Executive Spreadsheet"
+    produced_in_phase: 6
+    consumed_by_phases: []
+    format: "xlsx"
+    audience: "client"

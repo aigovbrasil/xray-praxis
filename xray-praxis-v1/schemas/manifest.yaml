@@ -1,0 +1,104 @@
+# PRAXIS — Manifest schema (canonical)
+# This file documents every field used in a runtime case manifest.
+# Runtime manifests are produced by scripts/init_case.py and updated
+# by scripts/advance_phase.py and scripts/compile_master.py.
+
+schema_version: "1.0.0"
+
+fields:
+
+  case_id:
+    type: string
+    format: "praxis-YYYYMMDD-<uuid8>"
+    required: true
+    description: Unique case identifier. Generated at init.
+
+  consultant_id:
+    type: string
+    required: true
+    description: Identifier of the consultant operating the case.
+
+  scenario:
+    type: string
+    enum: ["A", "B", "C"]
+    required: true
+    default: "A"
+    description: |
+      A = Diagnóstico Completo (full 6-phase diagnostic engagement).
+      B = Revisão e Atualização (returning client; abbreviated pipeline).
+      C = Proposta Comercial Rápida (Phase 1 → 2 → 6 only).
+
+  client_identity:
+    type: object
+    required: true
+    fields:
+      company_name: { type: string, required: true }
+      segment:      { type: string, required: false }
+      cnpj:         { type: string, required: false }
+      city:         { type: string, required: false }
+      state:        { type: string, required: false }
+      employees:    { type: integer, required: false }
+      annual_revenue_brl: { type: number, required: false }
+      decision_makers: { type: list, required: false }
+      drive_references: { type: list, required: false, description: "Google Drive doc IDs" }
+
+  current_phase:
+    type: integer
+    range: [1, 6]
+    required: true
+    default: 1
+
+  phase_history:
+    type: list
+    required: true
+    default: []
+    item_fields:
+      phase: integer
+      entered_at: timestamp
+      exited_at: timestamp
+      duration_seconds: integer
+
+  artifacts_produced:
+    type: list
+    required: true
+    default: []
+    item_fields:
+      artifact_id: { type: string, enum: [
+        "A-01","A-02","A-03","A-04","A-05","A-06","A-07","A-08","A-09",
+        "A-10","A-11","A-12","A-13","A-MASTER","A-MASTER-LINEAR","A-FINAL","A-OPS"
+      ]}
+      phase: integer
+      path: string
+      timestamp: timestamp
+      epistemic_label_count:
+        FATO: integer
+        INFERENCIA: integer
+        HIPOTESE: integer
+
+  gates_passed:
+    type: list
+    required: true
+    default: []
+    item_fields:
+      gate_id: { type: string, enum: ["G0","G1","G2","G3","G4","G5","G6"] }
+      approved_by: string
+      approved_at: timestamp
+      hardcoded_human: boolean
+
+  gates_pending:
+    type: list
+    required: true
+    default: ["G0","G1","G2","G3","G4","G5","G6"]
+
+  case_id_previous:
+    type: string
+    required: false
+    description: For Scenario B — links to prior A-MASTER case_id.
+
+  briefing_path:
+    type: string
+    required: false
+    description: Path to the original briefing file uploaded by the consultant.
+
+  created_at: { type: timestamp, required: true }
+  updated_at: { type: timestamp, required: true }

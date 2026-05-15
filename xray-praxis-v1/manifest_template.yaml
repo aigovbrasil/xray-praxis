@@ -1,0 +1,40 @@
+# PRAXIS — Manifest template
+# This file is the runtime template used by scripts/init_case.py.
+# It is copied + populated for each new case.
+
+case_id: "praxis-YYYYMMDD-XXXXXXXX"
+consultant_id: ""
+scenario: "A"
+
+client_identity:
+  company_name: ""
+  segment: ""
+  cnpj: ""
+  city: ""
+  state: ""
+  employees: null
+  annual_revenue_brl: null
+  decision_makers: []
+  drive_references: []
+
+current_phase: 1
+
+phase_history: []
+
+artifacts_produced: []
+
+gates_passed: []
+gates_pending:
+  - "G0"
+  - "G1"
+  - "G2"
+  - "G3"
+  - "G4"
+  - "G5"
+  - "G6"
+
+case_id_previous: null
+briefing_path: null
+
+created_at: ""
+updated_at: ""
